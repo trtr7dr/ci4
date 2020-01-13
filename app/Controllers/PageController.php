@@ -2,9 +2,14 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\API\ResponseTrait;
+
 class PageController extends BaseController {
 
+    use ResponseTrait;
+
     public function __construct() {
+
         $this->model = new \App\Models\PageModel();
     }
 
@@ -12,12 +17,12 @@ class PageController extends BaseController {
 
         $data = $this->model
                 ->where('url', $url)
-                ->firstOrFail();
+                ->first();
         
-        if(empty($data)){
-           set_status_header('404');
+        if (empty($data)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
-      
+
         return view('page/template/' . $data['url'], $data);
     }
 

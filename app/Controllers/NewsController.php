@@ -12,6 +12,9 @@ class NewsController extends BaseController {
         $data = $this->model
                 ->where('url', $url)
                 ->first();
+        if (empty($data)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
         return view('news/show', $data);
     }
 
