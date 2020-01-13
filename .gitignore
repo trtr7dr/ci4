@@ -124,3 +124,23 @@ nb-configuration.xml
 
 /results/
 /phpunit*.xml
+
+#ci4
+/user_guide_src/
+/writable/
+/tests/
+/system/
+/contributing/
+/admin/
+DCO.txt
+PULL_REQUEST_TEMPLATE.md
+Vagrantfile.dist
+stale.yml
+spark
+phpunit.xml.dist
+env
+composer.json
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+.nojekyll
+.editorconfig
