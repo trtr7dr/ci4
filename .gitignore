@@ -126,12 +126,12 @@ nb-configuration.xml
 /phpunit*.xml
 
 #ci4
-/user_guide_src/
-/writable/
-/tests/
-/system/
-/contributing/
-/admin/
+user_guide_src/
+writable/
+tests/
+system/
+contributing/
+admin/
 DCO.txt
 PULL_REQUEST_TEMPLATE.md
 Vagrantfile.dist
