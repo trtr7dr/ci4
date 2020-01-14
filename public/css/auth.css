@@ -1,0 +1,21 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14.01.2020, 10:53:16
+    Author     : glo-agent
+*/
+
+button.btn.btn-primary {
+    width: 100%;
+}
+.container {
+    margin-top: 40px;
+}
+
+label.no_text {
+    color: #ffffff00;
+    opacity: 0;
+}
