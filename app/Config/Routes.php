@@ -74,9 +74,19 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'IndexController::index');
 
+$routes->get('/join', 'AuthController::sign_up');
+$routes->post('/join', 'AuthController::registration');
+
+$routes->get('/login', 'AuthController::sign_in');
+$routes->post('/login', 'AuthController::login');
+
+$routes->get('/logout', 'AuthController::logout');
+
 $routes->add('/news/(:any)', 'NewsController::show/$1');
 
 $routes->add('/(:any)', 'PageController::show/$1');
+
+
 
 /**
  * --------------------------------------------------------------------
