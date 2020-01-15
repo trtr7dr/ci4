@@ -1,4 +1,6 @@
-<?php namespace Config;
+<?php
+
+namespace Config;
 
 /**
  * --------------------------------------------------------------------
@@ -16,15 +18,13 @@
  * so that a different class/function is called than the one
  * corresponding to the URL.
  */
-
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes(true);
 
 // Load the system's routing file first, so that the app and ENVIRONMENT
 // can override as needed.
-if (file_exists(SYSTEMPATH . 'Config/Routes.php'))
-{
-	require SYSTEMPATH . 'Config/Routes.php';
+if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
+    require SYSTEMPATH . 'Config/Routes.php';
 }
 
 /**
@@ -69,9 +69,27 @@ $routes->setAutoRoute(true);
  * Route Definitions
  * --------------------------------------------------------------------
  */
-
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+
+
+
+$routes->group('admin', ['filter' => 'admin'], function($routes){
+    $routes->get('/', 'AdminController::index');
+    $routes->group('page', function($routes) {
+        $routes->get('create', 'PageController::create');
+        $routes->post('create', 'PageController::addPage');
+        $routes->get('edit/(:any)', 'PageController::edit/$1');
+        $routes->post('edit/(:any)', 'PageController::update/$1');
+        $routes->get('delete/(:any)', 'PageController::delete/$1');
+    });
+    $routes->group('news', function($routes) {
+        $routes->get('create', 'NewsController::create');
+        $routes->post('create', 'NewsController::addNews');
+    });
+});
+
+
 $routes->get('/', 'IndexController::index');
 
 $routes->get('/join', 'AuthController::sign_up');
@@ -82,10 +100,11 @@ $routes->post('/login', 'AuthController::login');
 
 $routes->get('/logout', 'AuthController::logout');
 
+
+
 $routes->add('/news/(:any)', 'NewsController::show/$1');
 
 $routes->add('/(:any)', 'PageController::show/$1');
-
 
 
 /**
@@ -101,7 +120,6 @@ $routes->add('/(:any)', 'PageController::show/$1');
  * You will have access to the $routes object within that file without
  * needing to reload it.
  */
-if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php'))
-{
-	require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
+if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
+    require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }

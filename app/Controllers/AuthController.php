@@ -14,11 +14,10 @@ class AuthController extends BaseController {
         $this->user = new \App\Models\UserModel();
         $this->validation = \Config\Services::validation();
         $this->session = \Config\Services::session();
-        $this->session->start();
+        //$this->session->start();
     }
 
     public function sign_up() {
-
         if ($this->session->sid) {
             return redirect()->to('/');
         }
@@ -30,13 +29,11 @@ class AuthController extends BaseController {
         $data['name'] = $this->request->getPost('name');
         $data['email'] = $this->request->getPost('email');
         $data['password'] = $this->_password($this->request->getPost('pass'), $data['email']);
-
         $this->validation->setRules([
             'name' => 'required',
             'password' => 'required|min_length[6]',
             'email' => 'required|valid_email'
         ]);
-
         if ($this->validation->run($data) == FALSE) {
             $msg['error'] = 'Ошибка валидации. Проверьте данные.';
             return view(self::$reg_template, $msg);
@@ -52,14 +49,12 @@ class AuthController extends BaseController {
         if ($this->user->find_user($user) !== NULL) {
             return FALSE;
         }
-
         $data = [
             'name' => $user['name'],
             'email' => $user['email'],
             'password' => $user['password']
         ];
         $this->user->insert($data);
-
         return TRUE;
     }
 
@@ -87,15 +82,11 @@ class AuthController extends BaseController {
             $this->auth($user);
             return redirect()->to(base_url());
         }
-        
-        
     }
 
     private function _check_auth($user){
         $u = $this->user->get_pass_by_email($user['email']);
-        
         $u_pass = (string)$u['password'];
-
         if ( !hash_equals($u_pass, $user['password']) || $u['password'] == NULL){
             return FALSE;
         }
@@ -116,6 +107,6 @@ class AuthController extends BaseController {
                 ->where('id', $user['id'])
                 ->update();
         $this->session->destroy();
+        return redirect()->to('/');
     }
-    
 }
