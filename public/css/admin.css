@@ -50,3 +50,10 @@ label.no_text {
     color: #ffffff00;
     opacity: 0;
 }
+
+.pre_img {
+    max-height: 100px;
+    object-fit: contain;
+    float: right;
+    width: 100px;
+}

@@ -6,7 +6,7 @@ class NewsController extends BaseController {
 
     public static $RETURN_PAGE = '/admin';
     public static $LOAD_DIR = 'upload/image/news';
-    public static $DEFAULT_IMAGE = 'upload/image/news/def.png';
+    public static $DEFAULT_IMAGE = '../def.png';
 
     public function __construct() {
         $this->model = new \App\Models\NewsModel();
@@ -23,7 +23,6 @@ class NewsController extends BaseController {
     }
 
     public function create() {
-
         return view('news/create');
     }
 
@@ -56,7 +55,7 @@ class NewsController extends BaseController {
     public function file_load($folder) {
         $name = self::$DEFAULT_IMAGE;
         if ($this->file_validate('pre_img')) {
-            $file = $file = $this->request->getFile('pre_img');
+            $file = $this->request->getFile('pre_img');
             $file->move(self::$LOAD_DIR . '/' . $folder);
             $name = $file->getName();
         }
@@ -80,5 +79,30 @@ class NewsController extends BaseController {
         }
         return TRUE;
     }
-
+    
+    public function edit($id){
+        $data['news'] = $this->model->find(intval($id));
+        
+        return view('news/edit' . $data['url'], $data);
+    }
+    
+    public function update($id){
+        $data = [
+            'title' => $this->request->getPost('title'),
+            'url' => $this->request->getPost('url'),
+            'text' => $this->request->getPost('text')
+        ];
+        $file = $file = $this->request->getFile('pre_img');
+        
+        if($file->getClientName() !== ''){
+            $data['pre_img'] = $this->file_load($data['url']);
+        }
+        $this->model->update(intval($id), $data);
+        return redirect()->to(base_url() . self::$RETURN_PAGE);
+    }
+    
+    public function delete($id){
+        $this->model->delete(['id' => intval($id)]);
+        return redirect()->to(base_url() . self::$RETURN_PAGE);
+    }
 }

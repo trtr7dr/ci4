@@ -86,6 +86,9 @@ $routes->group('admin', ['filter' => 'admin'], function($routes){
     $routes->group('news', function($routes) {
         $routes->get('create', 'NewsController::create');
         $routes->post('create', 'NewsController::addNews');
+        $routes->get('edit/(:any)', 'NewsController::edit/$1');
+        $routes->post('edit/(:any)', 'NewsController::update/$1');
+        $routes->get('delete/(:any)', 'NewsController::delete/$1');
     });
 });
 
