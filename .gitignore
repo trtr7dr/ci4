@@ -145,3 +145,4 @@ CODE_OF_CONDUCT.md
 .nojekyll
 .editorconfig
 bootstrap
+public/upload/image/news*
