@@ -36,8 +36,10 @@ class NewsController extends BaseController {
         if (!is_dir(self::$LOAD_DIR . '/' . $data['url'])) {
             mkdir(self::$LOAD_DIR . '/' . $data['url'], 0777, TRUE);
         }
-        $data['pre_img'] = $this->file_load($data['url']);
-        $data['gallery'] = $this->files_upload($data['url']);
+        $pre_img = $this->request->getFile('pre_img');
+        $data['pre_img'] = $this->file_load($pre_img, $data['url']);
+        $files = $this->request->getFiles();
+        $data['gallery'] = $this->files_upload($files, $data['url']);
         $this->model->insert($data);
         return redirect()->to(base_url() . self::$RETURN_PAGE);
     }
@@ -52,10 +54,9 @@ class NewsController extends BaseController {
         ]);
     }
 
-    public function file_load($folder) {
+    public function file_load($file, $folder) {
         $name = self::$DEFAULT_IMAGE;
         if ($this->file_validate('pre_img')) {
-            $file = $this->request->getFile('pre_img');
             $file->move(self::$LOAD_DIR . '/' . $folder);
             $name = $file->getName();
         }
@@ -66,23 +67,21 @@ class NewsController extends BaseController {
         return '.' . end(explode('/', $mime));
     }
 
-    public function files_upload($folder) {
-        $files = $this->request->getFiles();
+    public function files_upload($files, $folder) {
         $i = 0;
         foreach ($files['gallery'] as $file) {
-            $i++;
             if ($file->isValid() && !$file->hasMoved()) {
                 $file->move(self::$LOAD_DIR . '/' . $folder, $i . $this->get_type_by_mime($file->getMimeType()));
             }else{
                 return FALSE;
             }
+            $i++;
         }
         return TRUE;
     }
     
     public function edit($id){
         $data['news'] = $this->model->find(intval($id));
-        
         return view('news/edit' . $data['url'], $data);
     }
     
