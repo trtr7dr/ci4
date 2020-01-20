@@ -10,7 +10,7 @@ class NewsController extends BaseController {
         $this->model = new \App\Models\NewsModel();
     }
 
-    public function show($url) {
+    public function show($url) : string{
         $data = $this->model
                 ->where('url', $url)
                 ->first();
@@ -20,14 +20,11 @@ class NewsController extends BaseController {
         return view('news/show', $data);
     }
 
-    public function create() {
+    public function create() : string {
         return view('news/create');
     }
 
-    public function addNews() {
-        
-        
-        
+    public function addNews() : object{
         $data = [
             'title' => $this->request->getPost('title'),
             'url' => $this->request->getPost('url'),
@@ -44,7 +41,7 @@ class NewsController extends BaseController {
         return redirect()->to(base_url() . self::$RETURN_PAGE);
     }
 
-    public function file_validate($form) {
+    public function file_validate(string $form) : bool {
         return $this->validate([
                     $form => [
                         'uploaded[' . $form . ']',
@@ -54,7 +51,7 @@ class NewsController extends BaseController {
         ]);
     }
 
-    public function file_load($file, $folder) {
+    public function file_load(object $file, string $folder) : string {
         $name = NewsDefaultImg;
         if ($this->file_validate('pre_img')) {
             $file->move(NewsDir . '/' . $folder);
@@ -63,11 +60,11 @@ class NewsController extends BaseController {
         return $name;
     }
 
-    public function get_type_by_mime($mime) {
+    public function get_type_by_mime(string $mime) : string {
         return '.' . end(explode('/', $mime));
     }
 
-    public function files_upload($files, $folder) {
+    public function files_upload(array $files, string $folder) : bool {
         $i = 0;
         foreach ($files['gallery'] as $file) {
             if ($file->isValid() && !$file->hasMoved()) {
@@ -80,12 +77,12 @@ class NewsController extends BaseController {
         return TRUE;
     }
     
-    public function edit($id){
+    public function edit(int $id) : string{
         $data['news'] = $this->model->find(intval($id));
         return view('news/edit' . $data['url'], $data);
     }
     
-    public function update($id){
+    public function update(int $id) : object{
         $data = [
             'title' => $this->request->getPost('title'),
             'url' => $this->request->getPost('url'),
@@ -100,7 +97,7 @@ class NewsController extends BaseController {
         return redirect()->to(base_url() . self::$RETURN_PAGE);
     }
     
-    public function delete($id){
+    public function delete(int $id) : object{
         $this->model->delete(['id' => intval($id)]);
         return redirect()->to(base_url() . self::$RETURN_PAGE);
     }
