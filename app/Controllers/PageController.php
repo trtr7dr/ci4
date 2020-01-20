@@ -10,7 +10,7 @@ class PageController extends BaseController {
         $this->model = new \App\Models\PageModel();
     }
 
-    public function show($url) { 
+    public function show(string $url) : string{ 
         $data = $this->model
                 ->where('url', $url)
                 ->first();
@@ -21,12 +21,12 @@ class PageController extends BaseController {
         return view('page/template/' . $data['templates'], $data);
     }
     
-    public function edit($id){
+    public function edit(int $id) : string{
         $data['page'] = $this->model->find(intval($id));
         return view('page/edit' . $data['url'], $data);
     }
     
-    public function update($id){
+    public function update(int $id) : object{
         $data = [
             'title' => $this->request->getPost('title'),
             'url' => $this->request->getPost('url'),
@@ -37,16 +37,16 @@ class PageController extends BaseController {
         return redirect()->to(base_url() . self::$RETURN_PAGE);
     }
     
-    public function delete($id){
+    public function delete(int $id) : object{
         $this->model->delete(['id' => intval($id)]);
         return redirect()->to(base_url() . self::$RETURN_PAGE);
     }
     
-    public function create(){
+    public function create() : string{
         return view('page/create');
     }
     
-    public function addPage(){
+    public function addPage() : object{
         $data = [
             'title' => $this->request->getPost('title'),
             'url' => $this->request->getPost('url'),

@@ -16,6 +16,7 @@ class AuthController extends BaseController {
         $this->session = \Config\Services::session();
         //$this->session->start();
     }
+    
 
     public function sign_up() {
         if ($this->session->sid) {
@@ -42,10 +43,10 @@ class AuthController extends BaseController {
             $msg['error'] = 'Ошибка добавления. Дублирование имени или почты.';
             return view(self::$reg_template, $msg);
         }
-        return redirect()->to(base_url() . '/login');
+        return redirect()->to('/login');
     }
 
-    public function add_new_user($user) {
+    public function add_new_user(array $user) : bool{
         if ($this->user->find_user($user) !== NULL) {
             return FALSE;
         }
@@ -58,7 +59,7 @@ class AuthController extends BaseController {
         return TRUE;
     }
 
-    private function _password($pass, $email) {
+    private function _password(string $pass, string $email) : string{
         return crypt($pass, $email);
     }
 
@@ -69,7 +70,7 @@ class AuthController extends BaseController {
         return view(self::$login_template);
     }
 
-    public function login() {
+    public function login(){
         $data = [];
         $data['email'] = $this->request->getPost('email');
         $data['password'] = $this->_password($this->request->getPost('pass'), $data['email']);
@@ -78,13 +79,13 @@ class AuthController extends BaseController {
         if(!$user){
             $msg['error'] = 'Ошибка. Неверный логин или пароль.';
             return view(self::$login_template, $msg);
-        }else{
-            $this->auth($user);
-            return redirect()->to(base_url());
         }
+        $this->auth($user);
+        return redirect()->to('/');
+        
     }
 
-    private function _check_auth($user){
+    private function _check_auth(array $user){
         $u = $this->user->get_pass_by_email($user['email']);
         $u_pass = (string)$u['password'];
         if ( !hash_equals($u_pass, $user['password']) || $u['password'] == NULL){
@@ -93,15 +94,16 @@ class AuthController extends BaseController {
         return $u;
     }
     
-    public function auth($u){
+    public function auth(array $u) : bool{
         $this->session->sid = md5($u['email'] . $u['password'] . rand(0, PHP_INT_MAX));
         $this->user->set('sid', $this->session->sid)
                 ->set('logged_at', time())
                 ->where('id', $u['id'])
                 ->update();
+        return true;
     }
     
-    public function logout(){
+    public function logout() : object{
         $user = $this->user->get_by_sid($this->session->sid);
         $this->user->set('sid', '')
                 ->where('id', $user['id'])

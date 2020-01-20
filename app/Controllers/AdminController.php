@@ -16,7 +16,7 @@ class AdminController extends BaseController {
         $this->news = new \App\Models\NewsModel();
     }
     
-    public function index(){
+    public function index() : string{
         $data = [
             'news' => $this->news->paginate(20),
             'pages' => $this->page->where('public', 1)->findAll(),

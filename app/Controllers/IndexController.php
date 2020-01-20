@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 class IndexController extends BaseController {
 
-    public function index() {
+    public function index() : string{
         $model = new \App\Models\NewsModel();
         $data = [
             'news' => $model->orderBy('title', 'DESC')->paginate(1),
