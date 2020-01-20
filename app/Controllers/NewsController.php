@@ -5,8 +5,6 @@ namespace App\Controllers;
 class NewsController extends BaseController {
 
     public static $RETURN_PAGE = '/admin';
-    public static $LOAD_DIR = 'upload/image/news';
-    public static $DEFAULT_IMAGE = '../def.png';
 
     public function __construct() {
         $this->model = new \App\Models\NewsModel();
@@ -28,13 +26,15 @@ class NewsController extends BaseController {
 
     public function addNews() {
         
+        
+        
         $data = [
             'title' => $this->request->getPost('title'),
             'url' => $this->request->getPost('url'),
             'text' => $this->request->getPost('text')
         ];
-        if (!is_dir(self::$LOAD_DIR . '/' . $data['url'])) {
-            mkdir(self::$LOAD_DIR . '/' . $data['url'], 0777, TRUE);
+        if (!is_dir(NewsDir . '/' . $data['url'])) {
+            mkdir(NewsDir . '/' . $data['url'], 0777, TRUE);
         }
         $pre_img = $this->request->getFile('pre_img');
         $data['pre_img'] = $this->file_load($pre_img, $data['url']);
@@ -55,9 +55,9 @@ class NewsController extends BaseController {
     }
 
     public function file_load($file, $folder) {
-        $name = self::$DEFAULT_IMAGE;
+        $name = NewsDefaultImg;
         if ($this->file_validate('pre_img')) {
-            $file->move(self::$LOAD_DIR . '/' . $folder);
+            $file->move(NewsDir . '/' . $folder);
             $name = $file->getName();
         }
         return $name;
@@ -71,7 +71,7 @@ class NewsController extends BaseController {
         $i = 0;
         foreach ($files['gallery'] as $file) {
             if ($file->isValid() && !$file->hasMoved()) {
-                $file->move(self::$LOAD_DIR . '/' . $folder, $i . $this->get_type_by_mime($file->getMimeType()));
+                $file->move(NewsDir . '/' . $folder, $i . $this->get_type_by_mime($file->getMimeType()));
             }else{
                 return FALSE;
             }
