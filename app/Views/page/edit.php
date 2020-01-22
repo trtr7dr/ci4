@@ -48,8 +48,10 @@ and open the template in the editor.
                 <div class="form-row">
                     <?= $error ?>
                 </div>
-
+                
             </form>
         </div>
+        <script src="<?= base_url(); ?>/js/dashboard/tinymce.min.js" type="text/javascript"></script>
+        <script>tinymce.init({selector:'textarea'});</script>
     </body>
 </html>

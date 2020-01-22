@@ -57,3 +57,7 @@ label.no_text {
     float: right;
     width: 100px;
 }
+
+textarea.form-control {
+    height: 500px;
+}
