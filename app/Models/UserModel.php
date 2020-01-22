@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
-use CodeIgniter\Database\ConnectionInterface;
 
 class UserModel extends Model {
 
