@@ -7,7 +7,7 @@ class IndexController extends BaseController {
     public function index() : string{
         $model = new \App\Models\NewsModel();
         $data = [
-            'news' => $model->orderBy('title', 'DESC')->paginate(1),
+            'news' => $model->orderBy('id', 'DESC')->paginate(5),
             'pager' => $model->pager
         ];
         return view('welcome_message', $data);
