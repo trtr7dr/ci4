@@ -28,7 +28,10 @@ class NewsController extends BaseController {
         $data = [
             'title' => $this->request->getPost('title'),
             'url' => $this->request->getPost('url'),
-            'text' => $this->request->getPost('text')
+            'text' => $this->request->getPost('text'),
+            'text' => $this->request->getPost('text'),
+            'description' => $this->request->getPost('description'),
+            'keywords' => $this->request->getPost('keywords')
         ];
         if (!is_dir(NewsDir . '/' . $data['url'])) {
             mkdir(NewsDir . '/' . $data['url'], 0777, TRUE);
@@ -86,7 +89,9 @@ class NewsController extends BaseController {
         $data = [
             'title' => $this->request->getPost('title'),
             'url' => $this->request->getPost('url'),
-            'text' => $this->request->getPost('text')
+            'text' => $this->request->getPost('text'),
+            'description' => $this->request->getPost('description'),
+            'keywords' => $this->request->getPost('keywords')
         ];
         $file = $file = $this->request->getFile('pre_img');
         

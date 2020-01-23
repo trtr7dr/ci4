@@ -31,7 +31,9 @@ class PageController extends BaseController {
             'title' => $this->request->getPost('title'),
             'url' => $this->request->getPost('url'),
             'templates' => $this->request->getPost('template'),
-            'content' => $this->request->getPost('content')
+            'content' => $this->request->getPost('content'),
+            'description' => $this->request->getPost('description'),
+            'keywords' => $this->request->getPost('keywords')
         ];
         $this->model->update(intval($id), $data);
         return redirect()->to(base_url() . self::$RETURN_PAGE);
@@ -51,7 +53,9 @@ class PageController extends BaseController {
             'title' => $this->request->getPost('title'),
             'url' => $this->request->getPost('url'),
             'templates' => $this->request->getPost('template'),
-            'content' => $this->request->getPost('content')
+            'content' => $this->request->getPost('content'),
+            'description' => $this->request->getPost('description'),
+            'keywords' => $this->request->getPost('keywords')
         ];
         $this->model->insert($data);
         return redirect()->to(base_url() . self::$RETURN_PAGE);

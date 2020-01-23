@@ -9,7 +9,7 @@ class NewsModel extends Model {
     protected $table = 'news';
     protected $primaryKey = 'id';
     protected $returnType = 'array';
-    protected $allowedFields = ['url', 'type', 'title', 'text', 'created', 'pre_img', 'gallery'];
+    protected $allowedFields = ['url', 'type', 'title', 'text', 'created', 'pre_img', 'gallery', 'description', 'keywords'];
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';

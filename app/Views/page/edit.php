@@ -37,6 +37,20 @@ and open the template in the editor.
                     </div>
                     
                 </div>
+                
+                <br>
+                <div class="form-row">
+                    
+                    <div class="col-md-6 mb-6">
+                        <label for="description">Описание</label>
+                        <input type="text" class="form-control" name="description" placeholder="Описание" value="<?= $page['description'] ?>">
+                    </div>
+                    <div class="col-md-6 mb-6">
+                        <label for="keywords">Ключевые слова</label>
+                        <input type="text" class="form-control" name="keywords" placeholder="Keywords" value="<?= $page['keywords'] ?>">
+                    </div>
+                </div>
+                
                 <div class="form-row">
                     <div class="col-md-9 md-9"></div>
                     <div class="col-md-3 md-3">
@@ -51,7 +65,5 @@ and open the template in the editor.
                 
             </form>
         </div>
-        <script src="<?= base_url(); ?>/js/dashboard/tinymce.min.js" type="text/javascript"></script>
-        <script>tinymce.init({selector:'textarea'});</script>
     </body>
 </html>

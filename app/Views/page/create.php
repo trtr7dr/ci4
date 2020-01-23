@@ -35,7 +35,18 @@ and open the template in the editor.
                         <label for="content">Содержание</label>
                         <textarea class="form-control" name="content" placeholder="Содержание" required></textarea>
                     </div>
+                </div>
+                <br>
+                <div class="form-row">
                     
+                    <div class="col-md-6 mb-6">
+                        <label for="description">Описание</label>
+                        <input type="text" class="form-control" name="description" placeholder="Описание">
+                    </div>
+                    <div class="col-md-6 mb-6">
+                        <label for="keywords">Ключевые слова</label>
+                        <input type="text" class="form-control" name="keywords" placeholder="Keywords">
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-9 md-9"></div>
@@ -51,7 +62,5 @@ and open the template in the editor.
 
             </form>
         </div>
-        <script src="<?= base_url(); ?>/js/dashboard/tinymce.min.js" type="text/javascript"></script>
-        <script>tinymce.init({selector:'textarea'});</script>
     </body>
 </html>
