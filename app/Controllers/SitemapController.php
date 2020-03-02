@@ -26,7 +26,7 @@ class SitemapController extends BaseController {
         return xml_convert($s);
     }
     
-    public function get_xml_part($list, $priority, $freg = 'monthly'){
+        public function get_xml_part($list, $priority, $freg = 'monthly'){
         $r = '';
         foreach ($list as $el){
             $r .= '<url>'
