@@ -103,7 +103,7 @@ $routes->post('/login', 'AuthController::login');
 
 $routes->get('/logout', 'AuthController::logout');
 
-
+$routes->add('/sitemap', 'SitemapController::generate');
 
 $routes->add('/news/(:any)', 'NewsController::show/$1');
 

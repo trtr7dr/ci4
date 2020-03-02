@@ -61,3 +61,13 @@ label.no_text {
 textarea.form-control {
     height: 500px;
 }
+
+.admin_urls{
+    text-align: right;
+}
+
+.row.admin_line {
+    padding: 20px 0px 20px 0px;
+    border-bottom: 1px solid;
+    margin-bottom: 20px;
+}

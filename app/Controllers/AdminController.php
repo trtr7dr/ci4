@@ -8,8 +8,8 @@ class AdminController extends BaseController {
         $this->session = \Config\Services::session();
         $this->user = new \App\Models\UserModel();
         
-        $user = $this->user->get_by_sid($this->session->sid);
-        if(!$user || $user['admin'] == 0){
+        $this->user = $this->user->get_by_sid($this->session->sid);
+        if(!$this->user || $this->user['admin'] == 0){
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         $this->page = new \App\Models\PageModel();
@@ -22,6 +22,7 @@ class AdminController extends BaseController {
             'pages' => $this->page->where('public', 1)->findAll(),
             'pager' => $this->news->pager
         ];
+        $data['user'] = $this->user;
 
         return view('admin-panel/board', $data);
     }

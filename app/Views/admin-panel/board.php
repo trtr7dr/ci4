@@ -13,28 +13,39 @@ and open the template in the editor.
     </head>
     <body>
         <div class="container">
+            <div class="row admin_line">
+                <div class="col-md-8">
+                    <?= $user['name'];?>
+                </div>
+                <div class="col-md-2 admin_urls">
+                    <a target="_blank" href="<?= base_url(); ?>/sitemap">Обновить sitemap</a> 
+                </div>
+                <div class="col-md-2 admin_urls">
+                    <a href="<?= base_url(); ?>/logout">Выход</a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-6">
                     <h2>Новости <a class="edit" href="<?= base_url(); ?>/admin/news/create">➕</a></h2>
                     <?php foreach ($news as $news_item): ?>
-                    <div class="line">
-                    <a class="edit" href="<?= base_url(); ?>/admin/news/edit/<?php echo $news_item['id']; ?>">✍</a> 
-                    <a class="delete" href="<?= base_url(); ?>/admin/news/delete/<?php echo $news_item['id']; ?>">✖</a> 
-                    <a href="<?= base_url(); ?>/news/<?php echo $news_item['url']; ?>"><?php echo ($news_item['title']); ?></a> 
-                    <br>
-                    </div>
+                        <div class="line">
+                            <a class="edit" href="<?= base_url(); ?>/admin/news/edit/<?php echo $news_item['id']; ?>">✍</a> 
+                            <a class="delete" href="<?= base_url(); ?>/admin/news/delete/<?php echo $news_item['id']; ?>">✖</a> 
+                            <a href="<?= base_url(); ?>/news/<?php echo $news_item['url']; ?>"><?php echo ($news_item['title']); ?></a> 
+                            <br>
+                        </div>
                     <?php endforeach; ?>
-                        <?= $pager->links() ?>
+                    <?= $pager->links() ?>
                 </div>
                 <div class="col-md-6">
                     <h2>Страницы <a class="edit" href="<?= base_url(); ?>/admin/page/create">➕</a></h2> 
                     <?php foreach ($pages as $page_item): ?>
-                    <div class="line">
-                    <a class="edit" href="<?= base_url(); ?>/admin/page/edit/<?php echo $page_item['id']; ?>">✍</a> 
-                    <a class="delete" href="<?= base_url(); ?>/admin/page/delete/<?php echo $page_item['id']; ?>">✖</a> 
-                    <a href="<?= base_url(); ?>/<?php echo $page_item['url']; ?>"><?php echo ($page_item['title']); ?></a> 
-                    <br>
-                    </div>
+                        <div class="line">
+                            <a class="edit" href="<?= base_url(); ?>/admin/page/edit/<?php echo $page_item['id']; ?>">✍</a> 
+                            <a class="delete" href="<?= base_url(); ?>/admin/page/delete/<?php echo $page_item['id']; ?>">✖</a> 
+                            <a href="<?= base_url(); ?>/<?php echo $page_item['url']; ?>"><?php echo ($page_item['title']); ?></a> 
+                            <br>
+                        </div>
                     <?php endforeach; ?>
                 </div>
             </div>
