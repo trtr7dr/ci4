@@ -15,5 +15,8 @@ class NewsModel extends Model {
     protected $updatedField = 'updated_at';
     protected $deletedField = 'deleted_at';
     
-
+    public function more($id, $lim = 2) {
+        return $this->where('id <', $id)->orderBy('id', 'DESC')->findAll($lim);
+    }
+    
 }

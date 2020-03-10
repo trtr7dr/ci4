@@ -107,6 +107,7 @@ $routes->add('/sitemap', 'SitemapController::generate');
 $routes->cli('sitemap', 'SitemapController::generate');
 
 $routes->add('/news/(:any)', 'NewsController::show/$1');
+$routes->post('/newsmore', 'NewsController::more');
 
 $routes->add('/(:any)', 'PageController::show/$1');
 

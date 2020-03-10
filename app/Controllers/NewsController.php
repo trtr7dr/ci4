@@ -106,4 +106,13 @@ class NewsController extends BaseController {
         $this->model->delete(['id' => intval($id)]);
         return redirect()->to(base_url() . self::$RETURN_PAGE);
     }
+    
+    public function more() {
+        if ($this->request->isAJAX()) {
+            $lid = service('request')->getPost('lid');
+            return json_encode(
+                    $this->model->more($lid)
+            );
+        }
+    }
 }
