@@ -10,7 +10,7 @@ function recaptcha() {
     if(numlog <= 5){
         $.ajax({
             type: 'post',
-            url: 'http://localhost/ci4/public/recap',
+            url: '/recap',
             data: {csrf_token: $('#csrf').val()},
             success: function (result) {
                 numlog++;
