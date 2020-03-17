@@ -14,27 +14,36 @@ class AuthController extends BaseController {
         $this->user = new \App\Models\UserModel();
         $this->validation = \Config\Services::validation();
         $this->session = \Config\Services::session();
-        //$this->session->start();
+        $this->captcha = new \App\Libraries\Captcha();
+        $this->session->start();
     }
     
+    public function recaptcha(){
+        return $this->captcha->img_code( $this->captcha->generate_code() );
+    }
 
     public function sign_up() {
         if ($this->session->sid) {
             return redirect()->to('/');
         }
-        return view(self::$reg_template);
+        $data['captcha'] = $this->captcha->img_code( $this->captcha->generate_code() );
+        return view(self::$reg_template, $data);
     }
-
+    
     public function registration() {
-        $data = [];
         $data['name'] = $this->request->getPost('name');
         $data['email'] = $this->request->getPost('email');
         $data['password'] = $this->_password($this->request->getPost('pass'), $data['email']);
-        $this->validation->setRules([
-            'name' => 'required',
-            'password' => 'required|min_length[6]',
-            'email' => 'required|valid_email'
-        ]);
+        $data['captcha'] = $this->request->getPost('captcha');
+
+        $this->validation->setRules( $this->user->valid_rules() );
+        
+        $cap = $this->captcha->check($data['captcha']); 
+        if($cap !== ''){
+            $cap['captcha'] = $this->captcha->img_code( $this->captcha->generate_code() );
+            return view(self::$reg_template, $cap);
+        }
+        
         if ($this->validation->run($data) == FALSE) {
             $msg['error'] = 'Ошибка валидации. Проверьте данные.';
             return view(self::$reg_template, $msg);
@@ -67,13 +76,21 @@ class AuthController extends BaseController {
         if ($this->session->sid) {
             return redirect()->to('/');
         }
-        return view(self::$login_template);
+        $data['captcha'] = $this->captcha->img_code( $this->captcha->generate_code() );
+        return view(self::$login_template, $data);
     }
 
     public function login(){
         $data = [];
         $data['email'] = $this->request->getPost('email');
         $data['password'] = $this->_password($this->request->getPost('pass'), $data['email']);
+        $data['captcha'] = $this->request->getPost('captcha');
+        
+        $cap = $this->captcha->check($data['captcha']); 
+        if($cap !== ''){
+            $cap['captcha'] = $this->captcha->img_code( $this->captcha->generate_code() );
+            return view(self::$login_template, $cap);
+        }
         
         $user = $this->_check_auth($data);
         if(!$user){

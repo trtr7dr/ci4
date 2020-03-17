@@ -14,6 +14,7 @@ and open the template in the editor.
     <body>
         <div class="container">
             <form method="post" >
+                <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id="csrf"/>
                 <?= csrf_field() ?>
                 <div class="form-row">
                     <div class="col-md-4 mb-4">
@@ -25,7 +26,11 @@ and open the template in the editor.
                         <input type="password" class="form-control" id="pass" name="pass" placeholder="Пароль" minlength="6" maxlength="20" required>
                     </div>
                     <div class="col-md-4 md-4">
-                        <label class="no_text" for="log">Войти</label>
+                        
+                        <img src="data:image/png;base64,<?= $captcha ?>" id="cap" width="220" height="120"/>
+                        <div id="ref" onclick="recaptcha()">⥁</div>
+                        <input class="form-control" id="captcha" name="captcha" type="text" placeholder="Код с картинки" minlength="4" maxlength="255" required>
+                        
                         <button type="submit" name="log" class="btn btn-primary">Вход</button>
                     </div>
                 </div>
@@ -35,5 +40,7 @@ and open the template in the editor.
 
             </form>
         </div>
+        <script src="<?= base_url(); ?>/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="<?= base_url(); ?>/js/recaptcha.js" type="text/javascript"></script>
     </body>
 </html>

@@ -19,3 +19,24 @@ label.no_text {
     color: #ffffff00;
     opacity: 0;
 }
+
+input#captcha {
+    width: 220px;
+    margin-bottom: 20px;
+        border-radius: 0 0 5px 5px;
+}
+img#cap {
+    border-radius: 5px 5px 0 0;
+}
+
+#ref {
+    position: absolute;
+    top: 0;
+    left: 11px;
+    mix-blend-mode: color-burn;
+    cursor: pointer;
+}
+
+#ref:hover {
+    transform: scale(1.1);
+}

@@ -98,6 +98,8 @@ $routes->get('/', 'IndexController::index');
 $routes->get('/join', 'AuthController::sign_up');
 $routes->post('/join', 'AuthController::registration');
 
+$routes->post('/recap', 'AuthController::recaptcha');
+
 $routes->get('/login', 'AuthController::sign_in');
 $routes->post('/login', 'AuthController::login');
 

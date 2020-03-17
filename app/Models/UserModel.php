@@ -23,5 +23,12 @@ class UserModel extends Model {
     public function get_by_sid($sid){
         return $this->where('sid', $sid)->first();
     }
+    public function valid_rules(){
+        return ['name' => 'required',
+                'password' => 'required|min_length[6]',
+                'email' => 'required|valid_email',
+                'captcha' => 'required|min_length[4]'
+            ];
+    }
 
 }
