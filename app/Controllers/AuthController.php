@@ -39,7 +39,7 @@ class AuthController extends BaseController {
         $this->validation->setRules( $this->user->valid_rules() );
         
         $cap = $this->captcha->check($data['captcha']); 
-        if($cap !== ''){
+        if($cap['error'] !== ''){
             $cap['captcha'] = $this->captcha->img_code( $this->captcha->generate_code() );
             return view(self::$reg_template, $cap);
         }
@@ -87,7 +87,7 @@ class AuthController extends BaseController {
         $data['captcha'] = $this->request->getPost('captcha');
         
         $cap = $this->captcha->check($data['captcha']); 
-        if($cap !== ''){
+        if($cap['error'] !== ''){
             $cap['captcha'] = $this->captcha->img_code( $this->captcha->generate_code() );
             return view(self::$login_template, $cap);
         }
