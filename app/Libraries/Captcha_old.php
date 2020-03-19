@@ -19,7 +19,7 @@ class Captcha {
         $numChars = strlen($chars); // Узнаем, сколько у нас задано символов
         $str = '';
         for ($i = 0; $i < $length; $i++) {
-            $str .= $chars[rand(0, $numChars - 1)];
+            $str .= $chars[rand(0, $numChars - 1) ];
         }
         $array_mix = preg_split('//', $str, -1, PREG_SPLIT_NO_EMPTY);
         srand((float) microtime() * 1000000);
@@ -31,25 +31,16 @@ class Captcha {
 
     private function _add_circ($img) {
         for ($i = 0; $i < rand(1, 10); $i++) {
-            $color = imagecolorallocate($img, rand(80, 170), rand(80, 170), rand(80, 170));
+            $color = imagecolorallocate($img, rand(80, 200), rand(80, 200), rand(80, 200));
             $r = rand(0, 100);
             imageFilledEllipse($img, rand(0, self::$width), rand(0, self::$width), $r, $r, $color);
         }
     }
 
-    private function _add_line($img, $mode = '', $max = 100) {
-        for ($i = 0; $i < rand(0, $max); $i++) {
-
-            $color = imagecolorallocate($img, rand(80, 150), rand(80, 150), rand(80, 150));
-
-            if ($mode === 'parallel') {
-                $r1 = rand(0, self::$width);
-                $r2 = rand(0, self::$width);
-                imageline($img, $r1, $r1, $r2, $r1, $color);
-                imageline($img, $r1, $r2, $r1, rand(0, 220), $color);
-            } else {
-                imageline($img, rand(0, self::$width), rand(0, self::$width), rand(0, self::$width), rand(0, self::$width), $color);
-            }
+    private function _add_line($img) {
+        for ($i = 0; $i < rand(0, 100); $i++) {
+            $color = imagecolorallocate($img, rand(80, 160), rand(80, 160), rand(80, 160));
+            imageline($img, rand(0, self::$width), rand(1, self::$height), rand(self::$width, self::$height), rand(1, self::$height), $color);
         }
     }
 
@@ -64,14 +55,14 @@ class Captcha {
 
     private function _set_glitch_color($image, $xn = 0, $yn = 0, $mode = 'normal') {
         $start = rand(self::$height / 2, self::$height / 2 - self::$height / 4);
-        $finish = $start + rand(5, 15);
+        $finish = $start + rand(5, 20);
         for ($x = 0; $x < self::$width - 1; $x++) {
             for ($y = 0; $y < self::$height - 1; $y++) {
-                if ($mode != 'normal') {
-                    $xn = rand(0, 1);
-                    $yn = rand(0, 1);
-                } else {
-                    $finish = $start + 3;
+                if($mode != 'normal'){
+                    $xn = rand(0,1);
+                    $yn = rand(0,1);
+                }else{
+                    $finish = $start + 5;
                 }
                 if ($y > $start && $y < $finish) {
                     imagesetpixel($image, $x + $xn, $y + $yn, imagecolorat($image, $x, $y));
@@ -81,15 +72,16 @@ class Captcha {
     }
 
     private function _add_glitch($img, $mode) {
-        if ($mode !== 'normal') {
-            for ($i = 0; $i < rand(1, 5); $i++) {
-                $this->_set_glitch_color($img, rand(0, 1), rand(0, 1), $mode);
+        if($mode !== 'normal'){
+            for($i = 0; $i < rand(1, 5); $i++){
+                $this->_set_glitch_color($img, rand(0,1), rand(0,1), $mode );
             }
-        } else {
-            $this->_set_glitch_color($img, rand(0, 1), rand(0, 1), $mode);
+        }else{
+            $this->_set_glitch_color($img, rand(0,1), rand(0,1), $mode );
         }
+        
     }
-
+    
     private function _add_text($img, $text) {
         $x = 10; //старт
         for ($i = 0; $i < strlen($text); $i++) {
@@ -99,37 +91,21 @@ class Captcha {
         }
     }
 
-    private function _add_rand_bg($img) {
-
-        for ($i = 0; $i < 10; $i++) {
-            $this->_add_circ($img);
-            $this->_add_poly($img);
-        }
-
-        for ($i = 0; $i < 30; $i++) {
-            $this->_add_line($img, 'parallel');
-        }
-
-        for ($x = 0; $x < self::$width - 1; $x++) {
-            for ($y = 0; $y < self::$height - 1; $y++) {
-                imagesetpixel($img, $x, $y + rand(0, 3) - rand(0, 3), imagecolorat($img, $x, $y));
-            }
-        }
-    }
-
     public function img_code($code) {
         $image = imagecreatetruecolor(self::$width, self::$height);
         imageantialias($image, true);
         $rand_color = imagecolorallocate($image, rand(50, 120), rand(50, 120), rand(50, 120));
         imagefilledrectangle($image, 0, 0, self::$width, self::$height, $rand_color);
 
-        $this->_add_rand_bg($image);
+        $this->_add_circ($image);
+        $this->_add_poly($image);
+        $this->_add_line($image);
         $this->_add_text($image, $code);
-
+       
         $this->_add_glitch($image, 'normal');
         $this->_add_glitch($image, 'boom');
-        $this->_add_line($image, 'rand', 200);
-        
+
+        $this->_add_line($image);
         $file = 'temp/' . md5($code) . ".png";
         imagepng($image, $file);
         imagedestroy($image);

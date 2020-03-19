@@ -27,6 +27,10 @@ input#captcha {
 }
 img#cap {
     border-radius: 5px 5px 0 0;
+    -webkit-transition:all .2s linear;
+    -moz-transition:all .2s linear;
+    -o-transition:all .2s linear;
+    transition:all .2s linear;
 }
 
 #ref {
@@ -39,4 +43,9 @@ img#cap {
 
 #ref:hover {
     transform: scale(1.1);
+}
+
+img#cap:hover {
+    transform: scale(1.7);
+    border-radius: 5px !important;
 }
